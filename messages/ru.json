@@ -1,0 +1,21 @@
+{
+    "title": "Анализ сделок",
+    "upload": {
+        "csv": "CSV-файл",
+        "filters": "Фильтры (в формате JSON)",
+        "submit": "Анализировать",
+        "loading": "Загрузка...",
+        "region_placeholder": "Выберите регион",
+        "search_region": "Поиск региона...",
+        "no_region_found": "Регион не найден",
+        "filter_placeholder": "Введите фильтры в формате JSON",
+        "analyze": "Анализировать"
+    },
+    "lang": {
+        "kk": "Қазақша",
+        "ru": "Русский"
+    },
+    "region_placeholder": "Выберите регион",
+    "search_region": "Поиск региона...",
+    "no_region_found": "Регион не найден"
+}

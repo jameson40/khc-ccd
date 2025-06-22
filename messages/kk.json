@@ -1,0 +1,21 @@
+{
+    "title": "Мәмілелерді талдау",
+    "upload": {
+        "csv": "CSV-файл",
+        "filters": "Сүзгілер (JSON форматында)",
+        "submit": "Талдау",
+        "loading": "Жүктелуде...",
+        "region_placeholder": "Өңірді таңдаңыз",
+        "search_region": "Өңірді іздеу...",
+        "no_region_found": "Өңір табылмады",
+        "filter_placeholder": "Сүзгілерді JSON форматында енгізіңіз",
+        "analyze": "Талдау"
+    },
+    "lang": {
+        "kk": "Қазақша",
+        "ru": "Орысша"
+    },
+    "region_placeholder": "Өңірді таңдаңыз",
+    "search_region": "Өңірді іздеу...",
+    "no_region_found": "Өңір табылмады"
+}
