@@ -2,14 +2,21 @@
     "title": "Анализ сделок",
     "upload": {
         "csv": "CSV-файл",
+        "csv_label": "Загрузить CSV-файл",
         "filters": "Фильтры (в формате JSON)",
         "submit": "Анализировать",
         "loading": "Загрузка...",
         "region_placeholder": "Выберите регион",
         "search_region": "Поиск региона...",
         "no_region_found": "Регион не найден",
+        "region_column_label": "Выберите колонку с регионом",
+        "region_column_placeholder": "Колонка региона",
         "filter_placeholder": "Введите фильтры в формате JSON",
-        "analyze": "Анализировать"
+        "analyze": "Анализировать",
+        "upload": "Загрузить",
+        "status_label": "Статусы",
+        "stage_label": "Стадии",
+        "responsible_label": "Ответственные"
     },
     "lang": {
         "kk": "Қазақша",
