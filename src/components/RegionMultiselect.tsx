@@ -63,7 +63,7 @@ export function RegionMultiselect({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-full justify-between"
+                    className="w-fit justify-between text-muted-foreground"
                 >
                     {selected.length > 0
                         ? selected.join(", ")

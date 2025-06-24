@@ -22,6 +22,23 @@
         "kk": "Қазақша",
         "ru": "Орысша"
     },
+    "report": {
+        "summary": {
+            "total_deals": "Жалпы мәміле саны",
+            "total_amount": "Мәмілелердің жалпы сомасы",
+            "avg_amount": "Орташа мәміле сомасы",
+            "unique_companies": "Бірегей компаниялар саны",
+            "deals_by_stage": "Кезеңдермен мәміле саны",
+            "deals_by_responsible": "Жауаптылармен мәміле саны",
+            "deals_by_voronka": "Воронка мәміле саны",
+            "deals_by_status": "Статустармен мәміле саны",
+            "repeats": "Қайталанған өтініштер",
+            "recontacts": "Қайта байланысулар саны",
+            "top_companies_by_count": "Компаниялар саны бойынша үздіктер",
+            "top_companies_by_sum": "Компаниялар сомасы бойынша үздіктер"
+        },
+        "show": "Көрсету"
+    },
     "region_placeholder": "Өңірді таңдаңыз",
     "search_region": "Өңірді іздеу...",
     "no_region_found": "Өңір табылмады"

@@ -10,16 +10,21 @@ import { RegionMultiselect } from "@/components/RegionMultiselect";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CheckboxList } from "@/components/CheckboxList";
+import { Select } from "@/components/ui/select";
 import {
-    Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { ReportBlock } from "@/components/ReportBlock";
+import { ChartBlock } from "@/components/ChartBlock";
+import { HorizontalBarChartBlock } from "@/components/HorizontalBarChart";
+import { Card, CardContent, CardHeader } from "./ui/card";
 
 export default function UploadForm() {
     const t = useTranslations("upload");
+    const r = useTranslations("report");
 
     const [file, setFile] = useState<File | null>(null);
     const [filtersEnabled, setFiltersEnabled] = useState(false);
@@ -123,60 +128,122 @@ export default function UploadForm() {
             </Button>
 
             {filtersEnabled && (
-                <div className="space-y-4">
-                    <Label>{t("region_column_label")}</Label>
-                    <Select onValueChange={(value) => setRegionColumn(value)}>
-                        <SelectTrigger>
-                            <SelectValue
-                                placeholder={t("region_column_placeholder")}
-                            />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {regionColumns.map((col) => (
-                                <SelectItem key={col} value={col}>
-                                    {col}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                <Card className="relative group">
+                    <CardHeader>{t("filters_title")}</CardHeader>
+                    <CardContent className="flex flex-col gap-5">
+                        <Label>{t("region_column_label")}</Label>
+                        <Select
+                            onValueChange={(value) => setRegionColumn(value)}
+                        >
+                            <SelectTrigger>
+                                <SelectValue
+                                    placeholder={t("region_column_placeholder")}
+                                />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {regionColumns.map((col) => (
+                                    <SelectItem key={col} value={col}>
+                                        {col}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
 
-                    <RegionMultiselect
-                        selected={selectedRegions}
-                        onChange={setSelectedRegions}
-                        enabled
-                    />
-                    <CheckboxList
-                        label={t("status_label")}
-                        options={statuses}
-                        selected={selectedStatuses}
-                        onChange={setSelectedStatuses}
-                    />
-                    <CheckboxList
-                        label={t("stage_label")}
-                        options={stages}
-                        selected={selectedStages}
-                        onChange={setSelectedStages}
-                    />
-                    <CheckboxList
-                        label={t("responsible_label")}
-                        options={responsibles}
-                        selected={selectedResponsibles}
-                        onChange={setSelectedResponsibles}
-                    />
-                    <Button
-                        type="button"
-                        onClick={() => uploadAndAnalyzeMutation.mutate()}
-                    >
-                        {t("analyze")}
-                    </Button>
-                </div>
+                        <RegionMultiselect
+                            selected={selectedRegions}
+                            onChange={setSelectedRegions}
+                            enabled
+                        />
+                        <CheckboxList
+                            label={t("status_label")}
+                            options={statuses}
+                            selected={selectedStatuses}
+                            onChange={setSelectedStatuses}
+                        />
+                        <CheckboxList
+                            label={t("stage_label")}
+                            options={stages}
+                            selected={selectedStages}
+                            onChange={setSelectedStages}
+                        />
+                        <CheckboxList
+                            label={t("responsible_label")}
+                            options={responsibles}
+                            selected={selectedResponsibles}
+                            onChange={setSelectedResponsibles}
+                        />
+                        <Button
+                            type="button"
+                            onClick={() => uploadAndAnalyzeMutation.mutate()}
+                        >
+                            {t("analyze")}
+                        </Button>
+                    </CardContent>
+                </Card>
             )}
 
             {result && (
-                <div className="mt-6 bg-muted p-4 rounded">
-                    <pre className="text-sm whitespace-pre-wrap">
-                        {JSON.stringify(result, null, 2)}
-                    </pre>
+                <div className="flex flex-col gap-5">
+                    <ReportBlock
+                        id="total_deals"
+                        title={r("summary.total_deals")}
+                    >
+                        {result.total_deals}
+                    </ReportBlock>
+                    <ReportBlock
+                        id="total_amount"
+                        title={r("summary.total_amount")}
+                    >
+                        {result.total_amount.toLocaleString()}
+                    </ReportBlock>
+                    <ReportBlock
+                        id="avg_amount"
+                        title={r("summary.avg_amount")}
+                    >
+                        {result.avg_amount.toLocaleString()}
+                    </ReportBlock>
+                    <ReportBlock
+                        id="unique_companies"
+                        title={r("summary.unique_companies")}
+                    >
+                        {result.unique_companies}
+                    </ReportBlock>
+
+                    <ChartBlock
+                        id="deals_by_stage"
+                        title={r("summary.deals_by_stage")}
+                        data={result.deals_by_stage}
+                    />
+                    <ChartBlock
+                        id="deals_by_status"
+                        title={r("summary.deals_by_status")}
+                        data={result.deals_by_status}
+                    />
+                    <ChartBlock
+                        id="deals_by_voronka"
+                        title={r("summary.deals_by_voronka")}
+                        data={result.deals_by_voronka}
+                    />
+                    <ReportBlock id="repeats" title={r("summary.repeats")}>
+                        {result.repeats}
+                    </ReportBlock>
+                    <ReportBlock
+                        id="recontacts"
+                        title={r("summary.recontacts")}
+                    >
+                        {result.recontacts}
+                    </ReportBlock>
+
+                    <HorizontalBarChartBlock
+                        id="top_companies_by_sum"
+                        title={r("summary.top_companies_by_sum")}
+                        data={result.top_companies_by_sum}
+                    />
+                    <HorizontalBarChartBlock
+                        id="top_companies_by_count"
+                        title={r("summary.top_companies_by_count")}
+                        data={result.top_companies_by_count}
+                    />
                 </div>
             )}
         </form>

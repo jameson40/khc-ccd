@@ -22,6 +22,23 @@
         "kk": "Қазақша",
         "ru": "Русский"
     },
+    "report": {
+        "summary": {
+            "total_deals": "Общее количество сделок",
+            "total_amount": "Общая сумма сделок",
+            "avg_amount": "Средняя сумма сделки",
+            "unique_companies": "Уникальные компании",
+            "deals_by_stage": "Сделки по стадиям",
+            "deals_by_responsible": "Сделки по ответственным",
+            "deals_by_voronka": "Сделки по воронке продаж",
+            "deals_by_status": "Сделки по статусу",
+            "repeats": "Повторные сделки",
+            "recontacts": "Повторные обращения",
+            "top_companies_by_count": "Лидеры компаний по числу сделок",
+            "top_companies_by_sum": "Лидеры компаний по сумме сделок"
+        },
+        "show": "Показать"
+    },
     "region_placeholder": "Выберите регион",
     "search_region": "Поиск региона...",
     "no_region_found": "Регион не найден"
