@@ -25,6 +25,7 @@ export default function UploadForm() {
     const t = useTranslations("upload");
     const r = useTranslations("report");
 
+    // Обработка файла
     const [file, setFile] = useState<File | null>(null);
     const [filtersEnabled, setFiltersEnabled] = useState(false);
     const [result, setResult] = useState<any>(null);
@@ -35,13 +36,29 @@ export default function UploadForm() {
     const [statuses, setStatuses] = useState<string[]>([]);
     const [stages, setStages] = useState<string[]>([]);
     const [responsibles, setResponsibles] = useState<string[]>([]);
+    const [funnels, setFunnels] = useState<string[]>([]);
+    const [dealsType, setDealsType] = useState<string[]>([]);
 
+    // Выбранные фильтры, используемые для фильтрации. В коде используются в мутации,
     const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedStages, setSelectedStages] = useState<string[]>([]);
     const [selectedResponsibles, setSelectedResponsibles] = useState<string[]>(
         []
     );
+    const [selectedFunnels, setSelectedFunnels] = useState<string[]>([]);
+    const [selectedDealsType, setSelectedDealsType] = useState<string[]>([]);
+
+    const [appliedFilters, setAppliedFilters] = useState<{
+        regions?: string[];
+        statuses?: string[];
+        stages?: string[];
+        responsibles?: string[];
+        funnels?: string[];
+        deals_type: string[];
+    }>();
+
+    // ref для выгрузки отчёта в PDF
     const reportRef = useRef<HTMLDivElement>(null);
     const { print } = usePrintPdf(reportRef);
 
@@ -71,6 +88,8 @@ export default function UploadForm() {
                 statuses: selectedStatuses,
                 stages: selectedStages,
                 responsibles: selectedResponsibles,
+                funnels: selectedFunnels,
+                deals_type: selectedDealsType,
             });
         },
     });
@@ -100,6 +119,8 @@ export default function UploadForm() {
                         statuses,
                         stages,
                         responsibles,
+                        funnels,
+                        deals_type,
                     } = filtersRes.data;
 
                     setRegions(regions || []);
@@ -107,6 +128,8 @@ export default function UploadForm() {
                     setStatuses(statuses || []);
                     setStages(stages || []);
                     setResponsibles(responsibles || []);
+                    setFunnels(funnels || []);
+                    setDealsType(deals_type || []);
 
                     setFiltersEnabled(true);
                 }
@@ -118,20 +141,6 @@ export default function UploadForm() {
             );
         }
     };
-
-    const [appliedFilters, setAppliedFilters] = useState<{
-        regions?: string[];
-        statuses?: string[];
-        stages?: string[];
-        responsibles?: string[];
-    }>();
-
-    console.log("filters", {
-        regions: selectedRegions,
-        statuses: selectedStatuses,
-        stages: selectedStages,
-        responsibles: selectedResponsibles,
-    });
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
@@ -194,6 +203,18 @@ export default function UploadForm() {
                             options={stages}
                             selected={selectedStages}
                             onChange={setSelectedStages}
+                        />
+                        <CheckboxList
+                            label={t("funnel_label")}
+                            options={funnels}
+                            selected={selectedFunnels}
+                            onChange={setSelectedFunnels}
+                        />
+                        <CheckboxList
+                            label={t("deal_type_label")}
+                            options={dealsType}
+                            selected={selectedDealsType}
+                            onChange={setSelectedDealsType}
                         />
                         <div className="col-span-1 md:col-span-2 lg:col-span-3">
                             <CheckboxList

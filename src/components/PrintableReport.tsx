@@ -13,6 +13,8 @@ interface PrintableReportProps {
         statuses?: string[];
         stages?: string[];
         responsibles?: string[];
+        funnels?: string[];
+        deals_type?: string[];
     };
 }
 
@@ -23,8 +25,9 @@ export const PrintableReport = forwardRef<HTMLDivElement, PrintableReportProps>(
 
         const summaryItems = Object.entries(result)
             .filter(
-                ([_, value]) =>
-                    typeof value === "number" || typeof value === "string"
+                ([key, value]) =>
+                    !key.endsWith("_note") &&
+                    (typeof value === "number" || typeof value === "string")
             )
             .map(([key, value]) => (
                 <ReportBlock key={key} id={key} title={t(key)}>
@@ -34,17 +37,40 @@ export const PrintableReport = forwardRef<HTMLDivElement, PrintableReportProps>(
                 </ReportBlock>
             ));
 
+        const notesMap = Object.entries(result)
+            .filter(([key]) => key.endsWith("_note"))
+            .reduce((acc, [key, val]) => {
+                const targetKey = key.replace(/_note$/, "");
+                acc[targetKey] = val as string | Record<string, string>;
+                return acc;
+            }, {} as Record<string, string | Record<string, string>>);
+
         const chartItems = Object.entries(result)
             .filter(
-                ([_, value]) =>
+                ([key, value]) =>
                     typeof value === "object" &&
                     value !== null &&
-                    !Array.isArray(value)
+                    !Array.isArray(value) &&
+                    !key.endsWith("_note")
             )
             .map(([key, value]) => {
                 const Component = key.startsWith("top_")
                     ? HorizontalBarChartBlock
                     : ChartBlock;
+
+                const rawNote = notesMap[key];
+                let note: string | undefined;
+
+                try {
+                    note =
+                        typeof rawNote === "object" && rawNote !== null
+                            ? t(`${key}_note`, rawNote)
+                            : typeof rawNote === "string"
+                            ? rawNote
+                            : undefined;
+                } catch {
+                    note = undefined;
+                }
 
                 return (
                     <Component
@@ -52,6 +78,7 @@ export const PrintableReport = forwardRef<HTMLDivElement, PrintableReportProps>(
                         id={key}
                         title={t(key)}
                         data={value as Record<string, number>}
+                        note={note}
                     />
                 );
             });
@@ -87,12 +114,24 @@ export const PrintableReport = forwardRef<HTMLDivElement, PrintableReportProps>(
                             {filters.stages?.length
                                 ? filters.stages.join(", ")
                                 : u("stages_all")}
-                        </div>  
+                        </div>
                         <div>
                             {u("responsibles")}:{" "}
                             {filters.responsibles?.length
                                 ? filters.responsibles.join(", ")
                                 : u("responsibles_all")}
+                        </div>
+                        <div>
+                            {u("funnels")}:{" "}
+                            {filters.funnels?.length
+                                ? filters.funnels.join(", ")
+                                : u("funnels_all")}
+                        </div>
+                        <div>
+                            {u("deals_type")}:{" "}
+                            {filters.deals_type?.length
+                                ? filters.deals_type.join(", ")
+                                : u("deals_type_all")}
                         </div>
                     </div>
                 )}

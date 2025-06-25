@@ -10,13 +10,10 @@ interface BlockProps {
     id: string;
     title: string;
     children: React.ReactNode;
+    note?: React.ReactNode;
 }
 
-export function ReportBlock({
-    id,
-    title,
-    children,
-}: BlockProps) {
+export function ReportBlock({ id, title, children, note }: BlockProps) {
     const t = useTranslations("report");
     const [visible, setVisible] = useState(true);
     const [hidden, setHidden] = useState(false);
@@ -103,7 +100,14 @@ export function ReportBlock({
                     </Button>
                 </div>
             </CardHeader>
-            <CardContent>{children}</CardContent>
+            <CardContent>
+                {children}
+                {note && (
+                    <p className="mt-2 text-sm text-muted-foreground italic">
+                        {note}
+                    </p>
+                )}
+            </CardContent>
         </Card>
     );
 }

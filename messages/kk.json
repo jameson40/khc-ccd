@@ -1,48 +1,71 @@
 {
-    "upload": {
-        "title": "CSV файлынан мәмілелер бойынша есеп құрастыру құралы",
-        "csv": "CSV-файл",
-        "csv_label": "CSV файлын жүктеу",
-        "filters": "Сүзгілер (JSON форматында)",
-        "submit": "Талдау",
-        "loading": "Жүктелуде...",
-        "region_placeholder": "Өңірді таңдаңыз",
-        "search_region": "Өңірді іздеу...",
-        "no_region_found": "Өңір табылмады",
-        "region_column_label": "Өңір бағанын таңдаңыз",
-        "region_column_placeholder": "Өңір бағаны",
-        "filter_placeholder": "Сүзгілерді JSON форматында енгізіңіз",
-        "analyze": "Талдау",
-        "upload": "Жүктеу",
-        "status_label": "Статустар",
-        "stage_label": "Кезеңдер",
-        "responsible_label": "Жауаптылар",
-        "filters_title": "Сүзгілер"
+  "home": {
+    "title": "Заңды тұлғалар департаментінің құралдар жинағы"
+  },
+  "upload": {
+    "title": "CSV-файлдан мәмілелер туралы есеп құрастырушы",
+    "csv": "CSV-файл",
+    "csv_label": "CSV-файлды жүктеу",
+    "filters": "Сүзгілер (JSON форматында)",
+    "submit": "Талдау",
+    "loading": "Жүктелуде...",
+    "region_placeholder": "Өңірді таңдаңыз",
+    "search_region": "Өңірді іздеу...",
+    "no_region_found": "Өңір табылмады",
+    "region_column_label": "Өңір бағанын таңдаңыз",
+    "region_column_placeholder": "Өңір бағаны",
+    "filter_placeholder": "Сүзгілерді JSON форматында енгізіңіз",
+    "analyze": "Талдау",
+    "upload": "Жүктеу",
+    "status_label": "Статустар",
+    "stage_label": "Кезеңдер",
+    "responsible_label": "Жауаптылар",
+    "funnel_label": "Сату шұңқыры",
+    "deal_type_label": "Мәміле түрі",
+    "filters_title": "Сүзгілер",
+    "filters_summary": "Қолданылған сүзгілер:",
+    "regions": "Өңірлер",
+    "statuses": "Статустар",
+    "stages": "Кезеңдер",
+    "responsibles": "Жауаптылар",
+    "funnels": "Сату шұңқырлары",
+    "deals_type": "Мәміле түрі",
+    "regions_all": "Барлық өңірлер",
+    "statuses_all": "Барлық статустар",
+    "stages_all": "Барлық кезеңдер",
+    "responsibles_all": "Барлық жауаптылар",
+    "funnels_all": "Барлық сату шұңқырлары",
+    "deals_type_all": "Барлық мәміле түрлері",
+    "clear": "Тазарту",
+    "download_pdf": "PDF жүктеу"
+  },
+  "lang": {
+    "kk": "Қазақша",
+    "ru": "Орысша"
+  },
+  "report": {
+    "summary": {
+      "total_deals": "Жалпы мәмілелер саны",
+      "total_amount": "Мәмілелердің жалпы сомасы (₸)",
+      "avg_amount": "Мәміленің орташа сомасы (₸)",
+      "unique_companies": "Бірегей компаниялар",
+      "deals_by_stage": "Кезеңдер бойынша мәмілелер",
+      "deals_by_responsible": "Жауаптылар бойынша мәмілелер",
+      "deals_by_funnel": "Сату шұңқыры бойынша мәмілелер",
+      "deals_by_status": "Статус бойынша мәмілелер",
+      "repeats": "Қайталанатын мәмілелер",
+      "recontacts": "Қайта жүгінулер",
+      "top_companies_by_count": "Мәміле саны бойынша көшбасшы компаниялар",
+      "top_companies_by_sum": "Сомасы бойынша көшбасшы компаниялар (₸)",
+      "top_regions_by_sum": "Сомасы бойынша көшбасшы өңірлер (₸)",
+      "top_regions_by_sum_note": "Қолданылған бағана: {region_col}"
     },
-    "lang": {
-        "kk": "Қазақша",
-        "ru": "Орысша"
-    },
-    "report": {
-        "summary": {
-            "total_deals": "Жалпы мәміле саны",
-            "total_amount": "Мәмілелердің жалпы сомасы (KZT)",
-            "avg_amount": "Орташа мәміле сомасы (KZT)",
-            "unique_companies": "Бірегей компаниялар саны",
-            "deals_by_stage": "Кезеңдермен мәміле саны",
-            "deals_by_responsible": "Жауаптылармен мәміле саны",
-            "deals_by_voronka": "Воронка мәміле саны",
-            "deals_by_status": "Статустармен мәміле саны",
-            "repeats": "Қайталанған өтініштер",
-            "recontacts": "Қайта байланысулар саны",
-            "top_companies_by_count": "Компаниялар саны бойынша үздіктер",
-            "top_companies_by_sum": "Компаниялар сомасы бойынша үздіктер (KZT)"
-        },
-        "show": "Көрсету"
-    },
-    "nav": {
-        "home": "Бас бет",
-        "instruments": "Құралдар",
-        "csvReport": "CSV-даң есеп құрастыру"
-    }
+    "title": "Мәмілелер туралы есеп",
+    "show": "Көрсету"
+  },
+  "nav": {
+    "home": "Басты бет",
+    "instruments": "Құралдар",
+    "csvReport": "CSV негізіндегі есеп"
+  }
 }

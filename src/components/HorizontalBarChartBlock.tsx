@@ -15,6 +15,7 @@ interface HorizontalBarChartBlockProps {
     id: string;
     title: string;
     data: Record<string, number>;
+    note?: React.ReactNode;
 }
 
 const preprocessLabel = (label: string) => {
@@ -42,6 +43,7 @@ export function HorizontalBarChartBlock({
     id,
     title,
     data,
+    note,
 }: HorizontalBarChartBlockProps) {
     const t = useTranslations("report");
 
@@ -56,7 +58,7 @@ export function HorizontalBarChartBlock({
             className="w-full"
             style={{ breakInside: "avoid", pageBreakInside: "avoid" }}
         >
-            <ReportBlock id={id} title={title}>
+            <ReportBlock id={id} title={title} note={note}>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart
                         layout="vertical"
@@ -76,7 +78,7 @@ export function HorizontalBarChartBlock({
                                 payload?.[0]?.payload?.original
                             }
                         />
-                        <Bar dataKey="value" fill="#8884d8" />
+                        <Bar dataKey="value" fill="#22432D" />
                     </BarChart>
                 </ResponsiveContainer>
             </ReportBlock>

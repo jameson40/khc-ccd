@@ -15,10 +15,11 @@ interface ChartBlockProps {
     id: string;
     title: string;
     data: Record<string, number>;
+    note?: React.ReactNode;
 }
 
 const COLORS = [
-    "#8884d8",
+    "#22432D",
     "#82ca9d",
     "#ffc658",
     "#ff7f50",
@@ -28,7 +29,7 @@ const COLORS = [
     "#a4de6c",
 ];
 
-export function ChartBlock({ id, title, data }: ChartBlockProps) {
+export function ChartBlock({ id, title, data, note }: ChartBlockProps) {
     const t = useTranslations("report");
 
     const chartData = Object.entries(data).map(([name, value]) => ({
@@ -41,7 +42,7 @@ export function ChartBlock({ id, title, data }: ChartBlockProps) {
             className="w-full"
             style={{ breakInside: "avoid", pageBreakInside: "avoid" }}
         >
-            <ReportBlock id={id} title={title}>
+            <ReportBlock id={id} title={title} note={note}>
                 <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
                         <Pie
