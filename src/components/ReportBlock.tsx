@@ -63,7 +63,7 @@ export function ReportBlock({
 
     if (hidden) {
         return (
-            <div className="flex justify-between items-center border px-4 py-2 rounded bg-muted text-muted-foreground mb-4">
+            <div className="flex h-full justify-between items-center border rounded-xl bg-muted text-muted-foreground p-6">
                 <span>{title}</span>
                 <Button
                     variant="ghost"

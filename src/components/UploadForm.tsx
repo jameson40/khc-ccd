@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -17,10 +17,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { ReportBlock } from "@/components/ReportBlock";
-import { ChartBlock } from "@/components/ChartBlock";
-import { HorizontalBarChartBlock } from "@/components/HorizontalBarChart";
 import { Card, CardContent, CardHeader } from "./ui/card";
+import { usePrintPdf } from "@/lib/usePrintPdf";
+import { PrintableReport } from "./PrintableReport";
 
 export default function UploadForm() {
     const t = useTranslations("upload");
@@ -43,6 +42,8 @@ export default function UploadForm() {
     const [selectedResponsibles, setSelectedResponsibles] = useState<string[]>(
         []
     );
+    const reportRef = useRef<HTMLDivElement>(null);
+    const { print } = usePrintPdf(reportRef);
 
     const uploadAndAnalyzeMutation = useMutation({
         mutationFn: async () => {
@@ -65,6 +66,12 @@ export default function UploadForm() {
         },
         onSuccess: async (data) => {
             setResult(data);
+            setAppliedFilters({
+                regions: selectedRegions,
+                statuses: selectedStatuses,
+                stages: selectedStages,
+                responsibles: selectedResponsibles,
+            });
         },
     });
 
@@ -112,48 +119,70 @@ export default function UploadForm() {
         }
     };
 
+    const [appliedFilters, setAppliedFilters] = useState<{
+        regions?: string[];
+        statuses?: string[];
+        stages?: string[];
+        responsibles?: string[];
+    }>();
+
+    console.log("filters", {
+        regions: selectedRegions,
+        statuses: selectedStatuses,
+        stages: selectedStages,
+        responsibles: selectedResponsibles,
+    });
+
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid w-full max-w-sm items-center gap-1.5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
+            <div className="flex flex-col gap-5">
                 <Label htmlFor="csv">{t("csv_label")}</Label>
-                <Input
-                    id="csv"
-                    type="file"
-                    accept=".csv"
-                    onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                />
+                <div className="flex gap-5">
+                    <Input
+                        id="csv"
+                        type="file"
+                        accept=".csv"
+                        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                        className="w-1/5"
+                    />
+                    <Button type="submit" disabled={!file} className="">
+                        {t("upload")}
+                    </Button>
+                </div>
             </div>
-            <Button type="submit" disabled={!file}>
-                {t("upload")}
-            </Button>
-
             {filtersEnabled && (
-                <Card className="relative group">
+                <Card className="relative group p-5">
                     <CardHeader>{t("filters_title")}</CardHeader>
-                    <CardContent className="flex flex-col gap-5">
-                        <Label>{t("region_column_label")}</Label>
-                        <Select
-                            onValueChange={(value) => setRegionColumn(value)}
-                        >
-                            <SelectTrigger>
-                                <SelectValue
-                                    placeholder={t("region_column_placeholder")}
-                                />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {regionColumns.map((col) => (
-                                    <SelectItem key={col} value={col}>
-                                        {col}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                    <CardContent className="grid auto-rows-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <div className="flex flex-col gap-5">
+                            <Label>{t("region_column_label")}</Label>
+                            <Select
+                                onValueChange={(value) =>
+                                    setRegionColumn(value)
+                                }
+                            >
+                                <SelectTrigger>
+                                    <SelectValue
+                                        placeholder={t(
+                                            "region_column_placeholder"
+                                        )}
+                                    />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {regionColumns.map((col) => (
+                                        <SelectItem key={col} value={col}>
+                                            {col}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
 
-                        <RegionMultiselect
-                            selected={selectedRegions}
-                            onChange={setSelectedRegions}
-                            enabled
-                        />
+                            <RegionMultiselect
+                                selected={selectedRegions}
+                                onChange={setSelectedRegions}
+                                enabled
+                            />
+                        </div>
                         <CheckboxList
                             label={t("status_label")}
                             options={statuses}
@@ -166,85 +195,37 @@ export default function UploadForm() {
                             selected={selectedStages}
                             onChange={setSelectedStages}
                         />
-                        <CheckboxList
-                            label={t("responsible_label")}
-                            options={responsibles}
-                            selected={selectedResponsibles}
-                            onChange={setSelectedResponsibles}
-                        />
-                        <Button
-                            type="button"
-                            onClick={() => uploadAndAnalyzeMutation.mutate()}
-                        >
-                            {t("analyze")}
-                        </Button>
+                        <div className="col-span-1 md:col-span-2 lg:col-span-3">
+                            <CheckboxList
+                                label={t("responsible_label")}
+                                options={responsibles}
+                                selected={selectedResponsibles}
+                                onChange={setSelectedResponsibles}
+                            />
+                        </div>
                     </CardContent>
+                    <Button
+                        type="button"
+                        onClick={() => uploadAndAnalyzeMutation.mutate()}
+                    >
+                        {t("analyze")}
+                    </Button>
                 </Card>
             )}
 
             {result && (
-                <div className="flex flex-col gap-5">
-                    <ReportBlock
-                        id="total_deals"
-                        title={r("summary.total_deals")}
-                    >
-                        {result.total_deals}
-                    </ReportBlock>
-                    <ReportBlock
-                        id="total_amount"
-                        title={r("summary.total_amount")}
-                    >
-                        {result.total_amount.toLocaleString()}
-                    </ReportBlock>
-                    <ReportBlock
-                        id="avg_amount"
-                        title={r("summary.avg_amount")}
-                    >
-                        {result.avg_amount.toLocaleString()}
-                    </ReportBlock>
-                    <ReportBlock
-                        id="unique_companies"
-                        title={r("summary.unique_companies")}
-                    >
-                        {result.unique_companies}
-                    </ReportBlock>
-
-                    <ChartBlock
-                        id="deals_by_stage"
-                        title={r("summary.deals_by_stage")}
-                        data={result.deals_by_stage}
+                <>
+                    <PrintableReport
+                        ref={reportRef}
+                        result={result}
+                        title={r("title")}
+                        subtitle={t("filters_summary")}
+                        filters={appliedFilters}
                     />
-                    <ChartBlock
-                        id="deals_by_status"
-                        title={r("summary.deals_by_status")}
-                        data={result.deals_by_status}
-                    />
-                    <ChartBlock
-                        id="deals_by_voronka"
-                        title={r("summary.deals_by_voronka")}
-                        data={result.deals_by_voronka}
-                    />
-                    <ReportBlock id="repeats" title={r("summary.repeats")}>
-                        {result.repeats}
-                    </ReportBlock>
-                    <ReportBlock
-                        id="recontacts"
-                        title={r("summary.recontacts")}
-                    >
-                        {result.recontacts}
-                    </ReportBlock>
-
-                    <HorizontalBarChartBlock
-                        id="top_companies_by_sum"
-                        title={r("summary.top_companies_by_sum")}
-                        data={result.top_companies_by_sum}
-                    />
-                    <HorizontalBarChartBlock
-                        id="top_companies_by_count"
-                        title={r("summary.top_companies_by_count")}
-                        data={result.top_companies_by_count}
-                    />
-                </div>
+                    <div className="flex justify-end mt-4">
+                        <Button onClick={print}>{t("download_pdf")}</Button>
+                    </div>
+                </>
             )}
         </form>
     );

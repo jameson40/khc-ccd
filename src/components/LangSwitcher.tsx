@@ -13,12 +13,14 @@ export function LangSwitcher() {
     );
 
     const switchLocale = (locale: string) => {
-        const newPath = pathname.replace(`/${currentLocale}`, `/${locale}`);
-        router.push(newPath);
+        if (!currentLocale) return;
+
+        const newPath = `/${locale}${pathname.slice(currentLocale.length + 1)}`;
+        window.location.href = newPath;
     };
 
     return (
-        <div className="flex gap-2 justify-end mb-4">
+        <div className="flex gap-2">
             {routing.locales.map((locale) => (
                 <Button
                     key={locale}

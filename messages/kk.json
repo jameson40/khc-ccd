@@ -1,6 +1,6 @@
 {
-    "title": "Мәмілелерді талдау",
     "upload": {
+        "title": "CSV файлынан мәмілелер бойынша есеп құрастыру құралы",
         "csv": "CSV-файл",
         "csv_label": "CSV файлын жүктеу",
         "filters": "Сүзгілер (JSON форматында)",
@@ -16,7 +16,8 @@
         "upload": "Жүктеу",
         "status_label": "Статустар",
         "stage_label": "Кезеңдер",
-        "responsible_label": "Жауаптылар"
+        "responsible_label": "Жауаптылар",
+        "filters_title": "Сүзгілер"
     },
     "lang": {
         "kk": "Қазақша",
@@ -25,8 +26,8 @@
     "report": {
         "summary": {
             "total_deals": "Жалпы мәміле саны",
-            "total_amount": "Мәмілелердің жалпы сомасы",
-            "avg_amount": "Орташа мәміле сомасы",
+            "total_amount": "Мәмілелердің жалпы сомасы (KZT)",
+            "avg_amount": "Орташа мәміле сомасы (KZT)",
             "unique_companies": "Бірегей компаниялар саны",
             "deals_by_stage": "Кезеңдермен мәміле саны",
             "deals_by_responsible": "Жауаптылармен мәміле саны",
@@ -35,11 +36,13 @@
             "repeats": "Қайталанған өтініштер",
             "recontacts": "Қайта байланысулар саны",
             "top_companies_by_count": "Компаниялар саны бойынша үздіктер",
-            "top_companies_by_sum": "Компаниялар сомасы бойынша үздіктер"
+            "top_companies_by_sum": "Компаниялар сомасы бойынша үздіктер (KZT)"
         },
         "show": "Көрсету"
     },
-    "region_placeholder": "Өңірді таңдаңыз",
-    "search_region": "Өңірді іздеу...",
-    "no_region_found": "Өңір табылмады"
+    "nav": {
+        "home": "Бас бет",
+        "instruments": "Құралдар",
+        "csvReport": "CSV-даң есеп құрастыру"
+    }
 }

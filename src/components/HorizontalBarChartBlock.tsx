@@ -6,6 +6,7 @@ import {
     YAxis,
     Tooltip,
     ResponsiveContainer,
+    Legend,
 } from "recharts";
 import { ReportBlock } from "@/components/ReportBlock";
 import { useTranslations } from "next-intl";
