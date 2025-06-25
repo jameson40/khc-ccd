@@ -1,6 +1,9 @@
 {
-    "title": "Анализ сделок",
+    "home": {
+        "title": "Набор инструментов для ДРЮЛ"
+    },
     "upload": {
+        "title": "Конструктор отчёта по сделкам из CSV",
         "csv": "CSV-файл",
         "csv_label": "Загрузить CSV-файл",
         "filters": "Фильтры (в формате JSON)",
@@ -16,13 +19,53 @@
         "upload": "Загрузить",
         "status_label": "Статусы",
         "stage_label": "Стадии",
-        "responsible_label": "Ответственные"
+        "responsible_label": "Ответственные",
+        "funnel_label": "Воронка продаж",
+        "deal_type_label": "Тип сделки",
+        "filters_title": "Фильтры",
+        "filters_summary": "Применённые фильтры:",
+        "regions": "Регионы",
+        "statuses": "Статусы",
+        "stages": "Стадии",
+        "responsibles": "Ответственные",
+        "funnels": "Воронки продаж",
+        "deals_type": "Тип сделки",
+        "regions_all": "Все регионы",
+        "statuses_all": "Все статусы",
+        "stages_all": "Все стадии",
+        "responsibles_all": "Все ответственные",
+        "funnels_all": "Все воронки продаж",
+        "deals_type_all": "Все виды сделок",
+        "clear": "Очистить",
+        "download_pdf": "Скачать PDF"
     },
     "lang": {
         "kk": "Қазақша",
         "ru": "Русский"
     },
-    "region_placeholder": "Выберите регион",
-    "search_region": "Поиск региона...",
-    "no_region_found": "Регион не найден"
+    "report": {
+        "summary": {
+            "total_deals": "Общее количество сделок",
+            "total_amount": "Общая сумма сделок (KZT)",
+            "avg_amount": "Средняя сумма сделки (KZT)",
+            "unique_companies": "Уникальные компании",
+            "deals_by_stage": "Сделки по стадиям",
+            "deals_by_responsible": "Сделки по ответственным",
+            "deals_by_funnel": "Сделки по воронке продаж",
+            "deals_by_status": "Сделки по статусу",
+            "repeats": "Повторные сделки",
+            "recontacts": "Повторные обращения",
+            "top_companies_by_count": "Лидеры компаний по числу сделок",
+            "top_companies_by_sum": "Лидеры компаний по сумме сделок (KZT)",
+            "top_regions_by_sum": "Лидеры регионов по сумме сделок (KZT)",
+            "top_regions_by_sum_note": "Использована колонка: {region_col}"
+        },
+        "title": "Отчёт по сделкам",
+        "show": "Показать"
+    },
+    "nav": {
+        "home": "Главная",
+        "instruments": "Инструменты",
+        "csvReport": "Отчёт по сделкам из CSV"
+    }
 }

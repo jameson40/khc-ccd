@@ -41,7 +41,7 @@ export function RegionMultiselect({
                 `${process.env.NEXT_PUBLIC_API_URL}/regions`
             );
             if (!res.data) throw new Error("Пустой ответ от API");
-            return res.data.regions || res.data; // поддержка и старого формата
+            return res.data.regions || res.data;
         },
         enabled,
     });
@@ -56,6 +56,14 @@ export function RegionMultiselect({
         }
     };
 
+    const selectAll = () => {
+        onChange(regions);
+    };
+
+    const clearAll = () => {
+        onChange([]);
+    };
+
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -63,24 +71,51 @@ export function RegionMultiselect({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-full justify-between"
+                    className="w-full justify-between text-muted-foreground min-h-[2.5rem] text-left overflow-hidden"
                 >
-                    {selected.length > 0
-                        ? selected.join(", ")
-                        : t("region_placeholder")}
+                    <div className="flex flex-wrap gap-1 max-w-full">
+                        {selected.length > 0 ? (
+                            selected.map((region) => (
+                                <span
+                                    key={region}
+                                    className="bg-muted text-muted-foreground px-2 py-0.5 rounded text-xs whitespace-nowrap max-w-[12rem] truncate"
+                                    title={region}
+                                >
+                                    {region}
+                                </span>
+                            ))
+                        ) : (
+                            <span className="text-sm text-muted-foreground">
+                                {t("region_placeholder")}
+                            </span>
+                        )}
+                    </div>
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0">
+            <PopoverContent className="w-full p-0 z-50">
                 <Command>
                     <CommandInput placeholder={t("search_region")} />
                     <CommandEmpty>{t("no_region_found")}</CommandEmpty>
                     <CommandGroup>
+                        <CommandItem
+                            onSelect={selectAll}
+                            className="w-full font-medium"
+                        >
+                            + {t("regions_all")}
+                        </CommandItem>
+                        <CommandItem
+                            onSelect={clearAll}
+                            className="w-full font-medium"
+                        >
+                            × {t("clear")}
+                        </CommandItem>
                         {regions.map((region: string) => (
                             <CommandItem
                                 key={region}
                                 value={region}
                                 onSelect={() => toggleSelection(region)}
+                                className="w-full"
                             >
                                 <Check
                                     className={cn(
