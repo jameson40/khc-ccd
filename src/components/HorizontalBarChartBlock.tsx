@@ -52,29 +52,34 @@ export function HorizontalBarChartBlock({
     }));
 
     return (
-        <ReportBlock id={id} title={title}>
-            <ResponsiveContainer width="100%" height={300}>
-                <BarChart
-                    layout="vertical"
-                    data={chartData}
-                    margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
-                >
-                    <XAxis type="number" tickFormatter={formatNumber} />
-                    <YAxis
-                        type="category"
-                        dataKey="name"
-                        width={150}
-                        tick={{ fontSize: 12 }}
-                    />
-                    <Tooltip
-                        formatter={(value: number) => formatNumber(value)}
-                        labelFormatter={(label: string, payload: any) =>
-                            payload?.[0]?.payload?.original
-                        }
-                    />
-                    <Bar dataKey="value" fill="#8884d8" />
-                </BarChart>
-            </ResponsiveContainer>
-        </ReportBlock>
+        <div
+            className="w-full"
+            style={{ breakInside: "avoid", pageBreakInside: "avoid" }}
+        >
+            <ReportBlock id={id} title={title}>
+                <ResponsiveContainer width="100%" height={300}>
+                    <BarChart
+                        layout="vertical"
+                        data={chartData}
+                        margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+                    >
+                        <XAxis type="number" tickFormatter={formatNumber} />
+                        <YAxis
+                            type="category"
+                            dataKey="name"
+                            width={150}
+                            tick={{ fontSize: 12 }}
+                        />
+                        <Tooltip
+                            formatter={(value: number) => formatNumber(value)}
+                            labelFormatter={(label: string, payload: any) =>
+                                payload?.[0]?.payload?.original
+                            }
+                        />
+                        <Bar dataKey="value" fill="#8884d8" />
+                    </BarChart>
+                </ResponsiveContainer>
+            </ReportBlock>
+        </div>
     );
 }

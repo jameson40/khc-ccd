@@ -37,9 +37,12 @@ export function ChartBlock({ id, title, data }: ChartBlockProps) {
     }));
 
     return (
-        <ReportBlock id={id} title={title}>
-            <div className="w-full h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
+        <div
+            className="w-full"
+            style={{ breakInside: "avoid", pageBreakInside: "avoid" }}
+        >
+            <ReportBlock id={id} title={title}>
+                <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
                         <Pie
                             data={chartData}
@@ -71,7 +74,7 @@ export function ChartBlock({ id, title, data }: ChartBlockProps) {
                         />
                     </PieChart>
                 </ResponsiveContainer>
-            </div>
-        </ReportBlock>
+            </ReportBlock>
+        </div>
     );
 }

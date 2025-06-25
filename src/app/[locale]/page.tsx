@@ -4,14 +4,14 @@ import Link from "next/link";
 
 export default async function Home() {
     const t = await getTranslations("home");
+    const u = await getTranslations("upload");
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
+        <div className="flex flex-col items-center justify-center h-screen w-full gap-10">
             <h1 className="text-6xl font-bold text-gray-900">{t("title")}</h1>
-            <div>
+            <div className="grid grid-cols-1 md:grid-cols-2">
                 <Card>
-                    <CardHeader title={t("cardTitle")} />
                     <CardContent>
-                        <Link href={"/csv-report"}></Link>
+                        <Link href={"/csv-report"}>{u("title")}</Link>
                     </CardContent>
                 </Card>
             </div>

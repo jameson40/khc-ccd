@@ -56,6 +56,14 @@ export function RegionMultiselect({
         }
     };
 
+    const selectAll = () => {
+        onChange(regions);
+    };
+
+    const clearAll = () => {
+        onChange([]);
+    };
+
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -63,7 +71,7 @@ export function RegionMultiselect({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-full justify-between text-muted-foreground min-h-[2.5rem] text-left overflow-hidden truncate"
+                    className="w-full justify-between text-muted-foreground min-h-[2.5rem] text-left overflow-hidden"
                 >
                     <div className="flex flex-wrap gap-1 max-w-full">
                         {selected.length > 0 ? (
@@ -90,6 +98,18 @@ export function RegionMultiselect({
                     <CommandInput placeholder={t("search_region")} />
                     <CommandEmpty>{t("no_region_found")}</CommandEmpty>
                     <CommandGroup>
+                        <CommandItem
+                            onSelect={selectAll}
+                            className="w-full font-medium"
+                        >
+                            + {t("regions_all")}
+                        </CommandItem>
+                        <CommandItem
+                            onSelect={clearAll}
+                            className="w-full font-medium"
+                        >
+                            × {t("clear")}
+                        </CommandItem>
                         {regions.map((region: string) => (
                             <CommandItem
                                 key={region}

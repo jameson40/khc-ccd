@@ -16,7 +16,7 @@ export default async function Header() {
     const t = await getTranslations("nav");
 
     return (
-        <header className="w-full border-b shadow-sm bg-white px-10 py-3 flex justify-between items-center">
+        <header className="w-full border-b shadow-sm bg-white px-10 py-3 flex justify-between items-center absolute left-0">
             <div className="flex items-center gap-5">
                 <Image src={logo} className="h-10 w-fit" alt="logo" />
             </div>

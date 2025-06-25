@@ -4,23 +4,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Copy, Eye, EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as htmlToImage from "html-to-image";
+import { cn } from "@/lib/utils"; // для условных классов
 
 interface BlockProps {
     id: string;
     title: string;
     children: React.ReactNode;
-    initiallyVisible?: boolean;
 }
 
 export function ReportBlock({
     id,
     title,
     children,
-    initiallyVisible = true,
 }: BlockProps) {
     const t = useTranslations("report");
-    const [visible, setVisible] = useState(initiallyVisible);
-    const [hidden, setHidden] = useState(!initiallyVisible);
+    const [visible, setVisible] = useState(true);
+    const [hidden, setHidden] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -34,7 +33,6 @@ export function ReportBlock({
 
         const actionPanel = contentRef.current.querySelector(".report-actions");
 
-        // Сохраняем ссылку на родителя и сам узел
         const parent = actionPanel?.parentElement;
         const placeholder = actionPanel?.nextSibling;
         if (actionPanel && parent) {
@@ -50,7 +48,6 @@ export function ReportBlock({
         } catch (err) {
             console.error("[COPY ERROR]", err);
         } finally {
-            // Возвращаем элемент туда, где он был
             if (actionPanel && parent) {
                 if (placeholder) {
                     parent.insertBefore(actionPanel, placeholder);
@@ -63,7 +60,7 @@ export function ReportBlock({
 
     if (hidden) {
         return (
-            <div className="flex h-full justify-between items-center border rounded-xl bg-muted text-muted-foreground p-6">
+            <div className="flex h-full justify-between items-center border rounded-xl bg-muted text-muted-foreground p-6 print:hidden">
                 <span>{title}</span>
                 <Button
                     variant="ghost"
@@ -80,7 +77,10 @@ export function ReportBlock({
     }
 
     return (
-        <Card className="relative group" ref={contentRef}>
+        <Card
+            className={cn("relative group", hidden && "print:hidden")}
+            ref={contentRef}
+        >
             <CardHeader className="flex flex-row justify-between items-center">
                 <CardTitle>{title}</CardTitle>
                 <div className="report-actions flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
