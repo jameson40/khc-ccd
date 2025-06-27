@@ -34,21 +34,24 @@ export function RegionMultiselect({
     const t = useTranslations("upload");
     const [open, setOpen] = React.useState(false);
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading } = useQuery<string[]>({
         queryKey: ["regions"],
         queryFn: async () => {
             const res = await axios.get(
                 `${process.env.NEXT_PUBLIC_API_URL}/regions`
             );
             if (!res.data) throw new Error("Пустой ответ от API");
-            return res.data.regions || res.data;
+
+            // Гарантируем, что вернётся массив строк
+            if (Array.isArray(res.data)) return res.data;
+            if (Array.isArray(res.data.regions)) return res.data.regions;
+
+            return []; // fallback
         },
         enabled,
     });
 
-    const regions: string[] = Array.isArray(data?.regions || data)
-        ? data?.regions || data
-        : [];
+    const regions = data ?? [];
 
     const toggleSelection = (region: string) => {
         if (selected.includes(region)) {
