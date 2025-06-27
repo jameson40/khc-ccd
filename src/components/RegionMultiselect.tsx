@@ -24,29 +24,34 @@ interface RegionMultiselectProps {
     onChange: (values: string[]) => void;
     selected: string[];
     enabled?: boolean;
+    regionCol: string | null;
 }
 
 export function RegionMultiselect({
     onChange,
     selected,
     enabled = false,
+    regionCol,
 }: RegionMultiselectProps) {
     const t = useTranslations("upload");
     const [open, setOpen] = React.useState(false);
 
-    const { data, isLoading } = useQuery({
-        queryKey: ["regions"],
+    const { data, isLoading } = useQuery<string[]>({
+        queryKey: ["region_values", regionCol],
         queryFn: async () => {
             const res = await axios.get(
-                `${process.env.NEXT_PUBLIC_API_URL}/regions`
+                `${process.env.NEXT_PUBLIC_API_URL}/filters`,
+                {
+                    params: { region_col: regionCol },
+                }
             );
-            if (!res.data) throw new Error("Пустой ответ от API");
-            return res.data.regions || res.data;
+            if (!res.data?.regions) throw new Error("Пустой список регионов");
+            return res.data.regions;
         },
-        enabled,
+        enabled: enabled && !!regionCol,
     });
 
-    const regions = data || [];
+    const regions = data ?? [];
 
     const toggleSelection = (region: string) => {
         if (selected.includes(region)) {
@@ -110,24 +115,25 @@ export function RegionMultiselect({
                         >
                             × {t("clear")}
                         </CommandItem>
-                        {regions.map((region: string) => (
-                            <CommandItem
-                                key={region}
-                                value={region}
-                                onSelect={() => toggleSelection(region)}
-                                className="w-full"
-                            >
-                                <Check
-                                    className={cn(
-                                        "mr-2 h-4 w-4",
-                                        selected.includes(region)
-                                            ? "opacity-100"
-                                            : "opacity-0"
-                                    )}
-                                />
-                                {region}
-                            </CommandItem>
-                        ))}
+                        {Array.isArray(regions) &&
+                            regions.map((region: string) => (
+                                <CommandItem
+                                    key={region}
+                                    value={region}
+                                    onSelect={() => toggleSelection(region)}
+                                    className="w-full"
+                                >
+                                    <Check
+                                        className={cn(
+                                            "mr-2 h-4 w-4",
+                                            selected.includes(region)
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                        )}
+                                    />
+                                    {region}
+                                </CommandItem>
+                            ))}
                     </CommandGroup>
                 </Command>
             </PopoverContent>
