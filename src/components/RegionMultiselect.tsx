@@ -24,31 +24,31 @@ interface RegionMultiselectProps {
     onChange: (values: string[]) => void;
     selected: string[];
     enabled?: boolean;
+    regionCol: string | null;
 }
 
 export function RegionMultiselect({
     onChange,
     selected,
     enabled = false,
+    regionCol,
 }: RegionMultiselectProps) {
     const t = useTranslations("upload");
     const [open, setOpen] = React.useState(false);
 
     const { data, isLoading } = useQuery<string[]>({
-        queryKey: ["regions"],
+        queryKey: ["region_values", regionCol],
         queryFn: async () => {
             const res = await axios.get(
-                `${process.env.NEXT_PUBLIC_API_URL}/regions`
+                `${process.env.NEXT_PUBLIC_API_URL}/filters`,
+                {
+                    params: { region_col: regionCol },
+                }
             );
-            if (!res.data) throw new Error("Пустой ответ от API");
-
-            // Гарантируем, что вернётся массив строк
-            if (Array.isArray(res.data)) return res.data;
-            if (Array.isArray(res.data.regions)) return res.data.regions;
-
-            return []; // fallback
+            if (!res.data?.regions) throw new Error("Пустой список регионов");
+            return res.data.regions;
         },
-        enabled,
+        enabled: enabled && !!regionCol,
     });
 
     const regions = data ?? [];

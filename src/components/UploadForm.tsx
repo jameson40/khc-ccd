@@ -10,8 +10,8 @@ import { RegionMultiselect } from "@/components/RegionMultiselect";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CheckboxList } from "@/components/CheckboxList";
-import { Select } from "@/components/ui/select";
 import {
+    Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
@@ -25,21 +25,19 @@ export default function UploadForm() {
     const t = useTranslations("upload");
     const r = useTranslations("report");
 
-    // Обработка файла
     const [file, setFile] = useState<File | null>(null);
     const [filtersEnabled, setFiltersEnabled] = useState(false);
     const [result, setResult] = useState<any>(null);
 
     const [regions, setRegions] = useState<string[]>([]);
-    const [regionColumns, setRegionColumns] = useState<string[]>([]);
-    const [regionColumn, setRegionColumn] = useState<string>("");
+    const [regionColumns, setRegionColumns] = useState<string[]>([]); // это список всех доступных колонок, содержащих слово "Регион"
+    const [regionColumn, setRegionColumn] = useState<string>(""); // это одна конкретно выбранная колонка из этого списка
     const [statuses, setStatuses] = useState<string[]>([]);
     const [stages, setStages] = useState<string[]>([]);
     const [responsibles, setResponsibles] = useState<string[]>([]);
     const [funnels, setFunnels] = useState<string[]>([]);
     const [dealsType, setDealsType] = useState<string[]>([]);
 
-    // Выбранные фильтры, используемые для фильтрации. В коде используются в мутации,
     const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedStages, setSelectedStages] = useState<string[]>([]);
@@ -58,7 +56,6 @@ export default function UploadForm() {
         deals_type: string[];
     }>();
 
-    // ref для выгрузки отчёта в PDF
     const reportRef = useRef<HTMLDivElement>(null);
     const { print } = usePrintPdf(reportRef);
 
@@ -71,6 +68,8 @@ export default function UploadForm() {
                 status: selectedStatuses ?? [],
                 stage: selectedStages ?? [],
                 responsible: selectedResponsibles ?? [],
+                funnel: selectedFunnels ?? [],
+                deal_type: selectedDealsType ?? [],
             };
             const formData = new FormData();
             formData.append("csv_file", file);
@@ -189,7 +188,8 @@ export default function UploadForm() {
                             <RegionMultiselect
                                 selected={selectedRegions}
                                 onChange={setSelectedRegions}
-                                enabled
+                                regionCol={regionColumn}
+                                enabled={!!regionColumn}
                             />
                         </div>
                         <CheckboxList
