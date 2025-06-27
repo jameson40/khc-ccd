@@ -32,7 +32,8 @@ const COLORS = [
 export function ChartBlock({ id, title, data, note }: ChartBlockProps) {
     const t = useTranslations("report");
 
-    const chartData = Object.entries(data).map(([name, value]) => ({
+    const safeData = typeof data === "object" && data !== null ? data : {};
+    const chartData = Object.entries(safeData).map(([name, value]) => ({
         name,
         value,
     }));
