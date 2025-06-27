@@ -46,7 +46,9 @@ export function RegionMultiselect({
         enabled,
     });
 
-    const regions = data || [];
+    const regions: string[] = Array.isArray(data?.regions || data)
+        ? data?.regions || data
+        : [];
 
     const toggleSelection = (region: string) => {
         if (selected.includes(region)) {
@@ -110,24 +112,25 @@ export function RegionMultiselect({
                         >
                             × {t("clear")}
                         </CommandItem>
-                        {regions.map((region: string) => (
-                            <CommandItem
-                                key={region}
-                                value={region}
-                                onSelect={() => toggleSelection(region)}
-                                className="w-full"
-                            >
-                                <Check
-                                    className={cn(
-                                        "mr-2 h-4 w-4",
-                                        selected.includes(region)
-                                            ? "opacity-100"
-                                            : "opacity-0"
-                                    )}
-                                />
-                                {region}
-                            </CommandItem>
-                        ))}
+                        {Array.isArray(regions) &&
+                            regions.map((region: string) => (
+                                <CommandItem
+                                    key={region}
+                                    value={region}
+                                    onSelect={() => toggleSelection(region)}
+                                    className="w-full"
+                                >
+                                    <Check
+                                        className={cn(
+                                            "mr-2 h-4 w-4",
+                                            selected.includes(region)
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                        )}
+                                    />
+                                    {region}
+                                </CommandItem>
+                            ))}
                     </CommandGroup>
                 </Command>
             </PopoverContent>
