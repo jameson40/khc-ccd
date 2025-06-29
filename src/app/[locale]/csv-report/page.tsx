@@ -78,6 +78,7 @@ export default function CSVReportPage() {
                         setFiltersState(filtersPayload);
                         analyzeMutation.mutate(filtersPayload);
                     }}
+                    fileId={fileId}
                 />
             )}
 

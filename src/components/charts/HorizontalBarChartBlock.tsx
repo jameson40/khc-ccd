@@ -48,11 +48,29 @@ export function HorizontalBarChartBlock({
     const t = useTranslations("report");
 
     const safeData = typeof data === "object" && data !== null ? data : {};
-    const chartData = Object.entries(safeData).map(([name, value]) => ({
-        name: preprocessLabel(name),
-        value,
-        original: name,
-    }));
+    const chartData = Object.entries(safeData)
+        .filter(([name, value]) => {
+            return (
+                typeof name === "string" &&
+                typeof value === "number" &&
+                !isNaN(value)
+            );
+        })
+        .map(([name, value]) => ({
+            name: preprocessLabel(name),
+            value,
+            original: name,
+        }));
+
+    if (chartData.length === 0) {
+        return (
+            <ReportBlock id={id} title={title} note={note}>
+                <p className="text-muted-foreground text-sm">
+                    {t("no_data_for_chart")}
+                </p>
+            </ReportBlock>
+        );
+    }
 
     return (
         <div
@@ -66,17 +84,29 @@ export function HorizontalBarChartBlock({
                         data={chartData}
                         margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
                     >
-                        <XAxis type="number" tickFormatter={formatNumber} />
+                        <XAxis
+                            type="number"
+                            tickFormatter={(value) =>
+                                typeof value === "number"
+                                    ? formatNumber(value)
+                                    : ""
+                            }
+                        />
                         <YAxis
                             type="category"
                             dataKey="name"
                             width={150}
                             tick={{ fontSize: 12 }}
                         />
+
                         <Tooltip
-                            formatter={(value: number) => formatNumber(value)}
+                            formatter={(value: number) =>
+                                typeof value === "number"
+                                    ? formatNumber(value)
+                                    : ""
+                            }
                             labelFormatter={(label: string, payload: any) =>
-                                payload?.[0]?.payload?.original
+                                payload?.[0]?.payload?.original ?? ""
                             }
                         />
                         <Bar dataKey="value" fill="#22432D" />
