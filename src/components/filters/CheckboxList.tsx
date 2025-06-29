@@ -6,14 +6,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 interface CheckboxListProps {
     label: string;
-    options: string[];
+    options?: string[];
     selected: string[];
     onChange: (values: string[]) => void;
 }
 
 export function CheckboxList({
     label,
-    options,
+    options = [],
     selected,
     onChange,
 }: CheckboxListProps) {
@@ -24,6 +24,8 @@ export function CheckboxList({
             onChange([...selected, value]);
         }
     };
+
+    if (!Array.isArray(options) || options.length === 0) return null;
 
     return (
         <div className="flex flex-col gap-5">

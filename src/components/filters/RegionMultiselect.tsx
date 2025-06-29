@@ -27,7 +27,7 @@ interface RegionMultiselectProps {
     regionCol: string | null;
 }
 
-export function RegionMultiselect({
+export default function RegionMultiselect({
     onChange,
     selected,
     enabled = false,
