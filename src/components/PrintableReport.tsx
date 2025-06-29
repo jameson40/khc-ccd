@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import { ReportBlock } from "@/components/ReportBlock";
-import { ChartBlock } from "@/components/ChartBlock";
-import { HorizontalBarChartBlock } from "@/components/HorizontalBarChartBlock";
+import { ChartBlock } from "@/components/charts/ChartBlock";
+import { HorizontalBarChartBlock } from "@/components/charts/HorizontalBarChartBlock";
 import { useTranslations } from "next-intl";
 
 interface PrintableReportProps {

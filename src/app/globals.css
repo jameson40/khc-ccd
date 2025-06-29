@@ -127,3 +127,16 @@
     padding-right: 2.5rem;
   }
 }
+
+#nprogress {
+  pointer-events: none;
+}
+#nprogress .bar {
+  background: #171717;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+}

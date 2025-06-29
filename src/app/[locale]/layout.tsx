@@ -1,11 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { NextIntlClientProvider } from "next-intl";
 import { Providers } from "../providers";
 import { getMessages } from "next-intl/server";
 import Header from "@/components/Header";
 import { ReactNode } from "react";
-import type { Metadata } from "next";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -35,7 +34,10 @@ export default async function RootLayout({ children, params }: Props) {
                     locale={locale}
                     messages={await getMessages({ locale })}
                 >
-                    <Providers>{children}</Providers>
+                    <Providers>
+                        {/* клиентский компонент в серверном layout */}
+                        {children}
+                    </Providers>
                 </NextIntlClientProvider>
             </body>
         </html>
