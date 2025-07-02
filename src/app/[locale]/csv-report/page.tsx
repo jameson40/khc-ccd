@@ -66,7 +66,7 @@ export default function CSVReportPage() {
 
     return (
         <main className="max-w-5xl mx-auto py-24 flex flex-col gap-5 items-center p-5">
-            <h1 className="text-4xl text-center">{t("title")}</h1>
+            <h1 className="text-4xl text-center">{t("csv_page_title")}</h1>
             <UploadForm type="csv" onUploaded={handleFileUpload} />
 
             {isLoadingFilters && <Loading />}
@@ -78,6 +78,7 @@ export default function CSVReportPage() {
                         setFiltersState(filtersPayload);
                         analyzeMutation.mutate(filtersPayload);
                     }}
+                    fileId={fileId}
                 />
             )}
 

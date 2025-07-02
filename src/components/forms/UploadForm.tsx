@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useTranslations } from "next-intl";
 
@@ -11,10 +11,15 @@ import Loading from "../Loading";
 
 interface UploadFormProps {
     type: "csv" | "excel";
-    onUploaded: (fileId: string) => void;
+    onUploaded: (fileId: string, sheets?: string[]) => void;
+    onDebugInfo?: (info: any) => void;
 }
 
-export default function UploadForm({ type, onUploaded }: UploadFormProps) {
+export default function UploadForm({
+    type,
+    onUploaded,
+    onDebugInfo,
+}: UploadFormProps) {
     const t = useTranslations("upload");
     const [file, setFile] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
@@ -24,18 +29,21 @@ export default function UploadForm({ type, onUploaded }: UploadFormProps) {
         if (!file) return;
 
         setLoading(true);
-
         const formData = new FormData();
-        formData.append(type === "csv" ? "csv_file" : "excel_file", file);
+        formData.append("file", file);
 
         try {
-            const uploadUrl = `${process.env.NEXT_PUBLIC_API_URL}/${
-                type === "csv" ? "upload_csv" : "upload_excel"
-            }`;
+            const uploadUrl =
+                type === "csv"
+                    ? `${process.env.NEXT_PUBLIC_API_URL}/upload_csv`
+                    : `${process.env.NEXT_PUBLIC_API_URL}/list_excel_sheets`;
+
             const uploadRes = await axios.post(uploadUrl, formData);
 
+            onDebugInfo?.(uploadRes.data);
+
             if (uploadRes.status === 200 && uploadRes.data.file_id) {
-                onUploaded(uploadRes.data.file_id);
+                onUploaded(uploadRes.data.file_id, uploadRes.data.sheets);
             }
         } catch (err) {
             console.error("[FRONT] Ошибка при загрузке:", err);

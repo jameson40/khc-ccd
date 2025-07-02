@@ -17,11 +17,13 @@ import { useTranslations } from "next-intl";
 interface CsvFiltersFormProps {
     filters: any;
     onAnalyze: (filters: any) => void;
+    fileId: string;
 }
 
 export default function CSVFiltersForm({
     filters,
     onAnalyze,
+    fileId,
 }: CsvFiltersFormProps) {
     const t = useTranslations("upload");
 
@@ -60,6 +62,7 @@ export default function CSVFiltersForm({
                         onChange={setSelectedRegions}
                         regionCol={regionColumn}
                         enabled={!!regionColumn}
+                        fileId={fileId}
                     />
                 </div>
                 <CheckboxList

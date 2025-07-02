@@ -25,6 +25,7 @@ interface RegionMultiselectProps {
     selected: string[];
     enabled?: boolean;
     regionCol: string | null;
+    fileId: string;
 }
 
 export default function RegionMultiselect({
@@ -32,23 +33,23 @@ export default function RegionMultiselect({
     selected,
     enabled = false,
     regionCol,
+    fileId
 }: RegionMultiselectProps) {
     const t = useTranslations("upload");
     const [open, setOpen] = React.useState(false);
 
     const { data, isLoading } = useQuery<string[]>({
-        queryKey: ["region_values", regionCol],
+        queryKey: ["region_values", fileId, regionCol],
         queryFn: async () => {
             const res = await axios.get(
-                `${process.env.NEXT_PUBLIC_API_URL}/filters`,
+                `${process.env.NEXT_PUBLIC_API_URL}/regions_csv`,
                 {
-                    params: { region_col: regionCol },
+                    params: { file_id: fileId, region_col: regionCol },
                 }
             );
-            if (!res.data?.regions) throw new Error("Пустой список регионов");
             return res.data.regions;
         },
-        enabled: enabled && !!regionCol,
+        enabled: enabled && !!fileId && !!regionCol,
     });
 
     const regions = data ?? [];
